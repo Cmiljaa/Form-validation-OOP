@@ -23,6 +23,12 @@ let config = {
         maxlength: 13
     },
 
+    'zip_code':{
+        zip: true,
+        minlength: 1,
+        maxlength: 5
+    },
+
     'lozinka':{
         required: true,
         minlength: 7,

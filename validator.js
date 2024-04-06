@@ -54,7 +54,7 @@ class Validator{
         {
             if(fieldvalue.length < elfields[fieldname].minlength || fieldvalue.length > elfields[fieldname].maxlength)
             {
-                this.errors[fieldname].push(`Length of the field must be between ${elfields[fieldname].minlength} and ${elfields[fieldname].maxlength}`);
+                this.errors[fieldname].push(`Length of the field must be between ${elfields[fieldname].minlength} and ${elfields[fieldname].maxlength} characters`);
             }
         }
 
@@ -72,6 +72,13 @@ class Validator{
             }
         }
 
+        if(elfields[fieldname].zip)
+        {
+            if(!this.validateZip(fieldvalue))
+            {
+                this.errors[fieldname].push('Your zip code is not valid');
+            }
+        }
         this.populateErrors(this.errors);
     }
 
@@ -92,6 +99,11 @@ class Validator{
                 errorsElement.appendChild(li);
             })
         }
+    }
+
+    validateZip(zip) {
+        const zipRegex = /^\d{5}$/; 
+        return zipRegex.test(zip);
     }
 
     validateEmail(email)
