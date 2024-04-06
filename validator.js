@@ -70,6 +70,25 @@ class Validator{
         }
     }
 
+    populateErrors(errors) {
+        for(const elem of document.querySelectorAll('ul')) {
+            elem.remove();
+        }
+        for(let key of Object.keys(errors)) {
+            let element = document.querySelector(`input[name="${key}"]`);
+            let parentElement = element.parentElement;
+            let errorsElement = document.createElement('ul');
+            parentElement.appendChild(errorsElement);
+
+            errors[key].forEach(error => {
+                let li = document.createElement('li');
+                li.innerText = error;
+
+                errorsElement.appendChild(li);
+            })
+        }
+    }
+
     validateEmail(email)
     {
         if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
