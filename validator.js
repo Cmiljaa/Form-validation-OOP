@@ -33,8 +33,49 @@ class Validator{
         this.errors[fieldname] = [];
         
         if(elfields[field].required)
-        
+        {
+            if(fieldvalue === '')
+            {
+                this.errors[fieldname].push('This field is empty');
+            }
+        }
 
+        if(elfields[fieldname].email)
+        {
+            if(!this.validateEmail(elfields[fieldname].email)){
+                this.errors[fieldname].push('Email is not valid');
+            }
+        }
+
+        if(elfields[fieldname].minlength && elfields[fieldname].maxlength)
+        {
+            if(fieldvalue.length < elfields[fieldname].minlength || fieldvalue.length > elfields[fieldname].maxlength)
+            {
+                this.errors[fieldname].push(`Length of the field must be between ${elfields[fieldname].minlength} and ${elfields[fieldname].maxlength}`);
+            }
+        }
+
+        if(elFields[fieldName].matching) {
+            let matchingEl = document.querySelector(`input[name="${elFields[fieldName].matching}"]`);
+            if(fieldValue !== matchingEl.value) {
+                this.errors[fieldName].push('Lozinke se ne poklapaju.');
+            }
+
+            // fieldName se puni samo ako se lozinke NE poklapaju
+            // ako se poklapaju (ako je fieldName.length === 0) nista se ne pise
+            if(this.errors[fieldName].length === 0) {
+                this.errors[fieldName] = [];
+                this.errors[elFields[fieldName].matching] = [];
+            }
+        }
+    }
+
+    validateEmail(email)
+    {
+        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+             return true;
+        else
+            return false;
     }
 
 
