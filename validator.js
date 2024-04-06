@@ -8,6 +8,7 @@ class Validator{
     }
 
     generateErrorsObject() {
+        // za svako polje forme, u 'errors' objektu pravimo niz za to polje gde cemo cuvati greske 
         for(let field in this.elementsConfig)
         {
             this.errors[field] = [];
@@ -16,17 +17,20 @@ class Validator{
 
     inputListener() {
         let inputselector = this.elementsConfig;
-
+        
         for(let field in inputselector){
             let selector = `input[name="${field}"]`;
             let element = document.querySelector(selector);
             element.addEventListener('input', this.validate.bind(this));
         }
+        // bind povezuje objekat i funkciju
     }
 
+     // e je trenutno polje zato sto je gore kliknuto
     validate(e){
+        // sva polja
         let elfields = this.elementsConfig;
-
+        // trenutno polje
         let field = e.target;
         let fieldname = field.getAttribute('name');
         let fieldvalue = field.value;
