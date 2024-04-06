@@ -5,7 +5,7 @@ let config = {
         maxlength: 50
     },
 
-    'koriscicko_ime':{
+    'korisnicko_ime':{
         required: true,
         minlength: 5,
         maxlength: 50

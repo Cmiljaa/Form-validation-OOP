@@ -19,9 +19,8 @@ class Validator{
         let inputselector = this.elementsConfig;
         
         for(let field in inputselector){
-            let selector = `input[name="${field}"]`;
-            let element = document.querySelector(selector);
-            element.addEventListener('input', this.validate.bind(this));
+            let el = document.querySelector(`input[name="${field}"]`);
+            el.addEventListener("input", this.validate.bind(this));
         }
         // bind povezuje objekat i funkciju
     }
@@ -36,7 +35,7 @@ class Validator{
         let fieldvalue = field.value;
         this.errors[fieldname] = [];
         
-        if(elfields[field].required)
+        if(elfields[fieldname].required)
         {
             if(fieldvalue === '')
             {
@@ -46,7 +45,7 @@ class Validator{
 
         if(elfields[fieldname].email)
         {
-            if(!this.validateEmail(elfields[fieldname].email)){
+            if(!this.validateEmail(fieldvalue)){
                 this.errors[fieldname].push('Email is not valid');
             }
         }
@@ -59,19 +58,21 @@ class Validator{
             }
         }
 
-        if(elFields[fieldName].matching) {
-            let matchingEl = document.querySelector(`input[name="${elFields[fieldName].matching}"]`);
-            if(fieldValue !== matchingEl.value) {
-                this.errors[fieldName].push('Lozinke se ne poklapaju.');
+        if(elfields[fieldname].matching) {
+            let matchingEl = document.querySelector(`input[name="${elfields[fieldname].matching}"]`);
+            if(fieldvalue !== matchingEl.value) {
+                this.errors[fieldname].push('Passwords do not match');
             }
 
             // fieldName se puni samo ako se lozinke NE poklapaju
             // ako se poklapaju (ako je fieldName.length === 0) nista se ne pise
-            if(this.errors[fieldName].length === 0) {
-                this.errors[fieldName] = [];
-                this.errors[elFields[fieldName].matching] = [];
+            if(this.errors[fieldname].length === 0) {
+                this.errors[fieldname] = [];
+                this.errors[elfields[fieldname].matching] = [];
             }
         }
+
+        this.populateErrors(this.errors);
     }
 
     populateErrors(errors) {
@@ -100,6 +101,4 @@ class Validator{
         else
             return false;
     }
-
-
 }
